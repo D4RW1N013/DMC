@@ -1,0 +1,26 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# PyCharm
+.idea/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# DMC local data
+data/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

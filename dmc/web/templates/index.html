@@ -1,0 +1,395 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DMC — Digital Machine Companion</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo-area">
+            <div class="logo">DMC<span>.</span></div>
+            <div class="logo-subtitle">
+                DIGITAL MACHINE COMPANION
+            </div>
+        </div>
+
+
+        <button
+            id="new-chat"
+            class="new-chat"
+            type="button"
+        >
+            <span class="plus">+</span>
+            <span>Neuer Chat</span>
+        </button>
+
+
+        <div class="sidebar-section">
+
+            <div
+                id="pinned-section"
+                class="chat-section"
+            >
+
+                <div class="section-title">
+                    ANGEHEFTET
+                </div>
+
+                <div id="pinned-list"></div>
+
+            </div>
+
+
+            <div class="chat-section">
+
+                <div class="section-title">
+                    CHATS
+                </div>
+
+                <div
+                    id="chat-list"
+                    class="chat-list"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                id="settings-button"
+                class="settings-button"
+                type="button"
+            >
+                <span class="gear-small">⚙</span>
+                <span>Einstellungen</span>
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main class="main">
+
+        <header class="header">
+
+            <div class="header-title-area">
+
+                <div class="online-indicator"></div>
+
+                <div>
+                    <div
+                        id="current-chat-title"
+                        class="current-chat-title"
+                    >
+                        NEW CHAT
+                    </div>
+
+                    <div class="online-text">
+                        DMC ONLINE
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CHAT
+             ================================================= -->
+
+        <div
+            id="chat"
+            class="chat"
+        ></div>
+
+
+        <!-- =================================================
+             PROCESS INDICATOR
+             ================================================= -->
+
+        <div
+            id="activity"
+            class="activity"
+        ></div>
+
+
+        <!-- =================================================
+             INPUT
+             ================================================= -->
+
+        <div class="input-area">
+
+            <div class="input-box">
+
+                <textarea
+                    id="message"
+                    rows="1"
+                    placeholder="Nachricht an DMC..."
+                    autocomplete="off"
+                    spellcheck="true"
+                ></textarea>
+
+
+                <button
+                    id="send"
+                    class="send-button"
+                    type="button"
+                    aria-label="Nachricht senden"
+                >
+                    ↑
+                </button>
+
+            </div>
+
+            <div class="input-hint">
+                ENTER zum Senden · SHIFT + ENTER für neue Zeile
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     CHAT MENU
+     ========================================================= -->
+
+<div
+    id="chat-menu"
+    class="chat-menu hidden"
+>
+
+    <button
+        id="pin-chat"
+        type="button"
+    >
+        PIN
+    </button>
+
+    <button
+        id="rename-chat"
+        type="button"
+    >
+        Umbenennen
+    </button>
+
+    <button
+        id="share-chat"
+        type="button"
+    >
+        Teilen
+    </button>
+
+    <button
+        id="delete-chat"
+        type="button"
+        class="danger"
+    >
+        Löschen
+    </button>
+
+</div>
+
+
+<!-- =========================================================
+     SETTINGS
+     ========================================================= -->
+
+<div
+    id="settings-modal"
+    class="modal hidden"
+>
+
+    <div class="modal-background"></div>
+
+    <div class="settings-window">
+
+        <div class="settings-header">
+
+            <div>
+                <div class="settings-title">
+                    Einstellungen
+                </div>
+
+                <div class="settings-subtitle">
+                    Passe DMC an dich an.
+                </div>
+            </div>
+
+            <button
+                id="close-settings"
+                class="close-button"
+                type="button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="settings-body">
+
+            <div class="setting-group">
+
+                <label for="user-name">
+                    Dein Name
+                </label>
+
+                <input
+                    id="user-name"
+                    type="text"
+                    placeholder="z. B. David"
+                >
+
+                <div class="setting-description">
+                    DMC kann dich damit persönlicher ansprechen.
+                </div>
+
+            </div>
+
+
+            <div class="setting-group">
+
+                <label for="language">
+                    Sprache
+                </label>
+
+                <select id="language">
+
+                    <option value="de">
+                        Deutsch
+                    </option>
+
+                    <option value="en">
+                        English
+                    </option>
+
+                    <option value="es">
+                        Español
+                    </option>
+
+                    <option value="fr">
+                        Français
+                    </option>
+
+                </select>
+
+                <div class="setting-description">
+                    DMC verwendet diese Sprache als Standardsprache.
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="settings-footer">
+
+            <button
+                id="save-settings"
+                class="save-button"
+                type="button"
+            >
+                Speichern
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     CONFIRMATION
+     ========================================================= -->
+
+<div
+    id="confirmation"
+    class="modal hidden"
+>
+
+    <div class="modal-background"></div>
+
+    <div class="confirmation-window">
+
+        <div class="confirmation-header">
+            BESTÄTIGUNG ERFORDERLICH
+        </div>
+
+        <div class="confirmation-body">
+
+            <p>
+                DMC möchte folgende Aktion ausführen:
+            </p>
+
+            <div
+                id="confirmation-tool"
+                class="confirmation-tool"
+            ></div>
+
+            <pre
+                id="confirmation-args"
+                class="confirmation-args"
+            ></pre>
+
+        </div>
+
+        <div class="confirmation-footer">
+
+            <button
+                id="deny"
+                class="deny-button"
+                type="button"
+            >
+                Abbrechen
+            </button>
+
+            <button
+                id="allow"
+                class="allow-button"
+                type="button"
+            >
+                Erlauben
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script
+    src="{{ url_for('static', filename='app.js') }}"
+></script>
+
+</body>
+</html>
